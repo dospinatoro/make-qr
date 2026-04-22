@@ -7,6 +7,14 @@ from urllib.parse import urlparse
 # ------------------------
 # Helpers
 # ------------------------
+def keep_alive():
+    while True:
+        time.sleep(300)  # every 5 minutes
+        try:
+            requests.get("https://qr-apps.streamlit.app")
+        except:
+            pass
+
 def is_valid_url(url: str) -> bool:
     try:
         parsed = urlparse(url)
@@ -31,6 +39,14 @@ def generate_qr_buffer(data: str):
     qr.save(buffer, kind="png", scale=5)
     buffer.seek(0)
     return buffer
+
+# ------------------------
+# Keeping alive the app
+# ------------------------
+if "keep_alive_started" not in st.session_state:
+    st.session_state.keep_alive_started = True
+    thread = threading.Thread(target=keep_alive, daemon=True)
+    thread.start()
 
 # ------------------------
 # Page config
