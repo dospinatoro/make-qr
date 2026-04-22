@@ -1,8 +1,10 @@
 import streamlit as st
 import segno
 from io import BytesIO
-import requests
 from urllib.parse import urlparse
+import requests
+import threading
+import time
 
 # ------------------------
 # Helpers
